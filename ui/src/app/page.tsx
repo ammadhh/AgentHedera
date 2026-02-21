@@ -1060,9 +1060,11 @@ await contract.placePredictionBet(
                 const isSettled = pred.status === 'settled'
                 const isExpanded = selectedPred === pred.id
                 const predJob = jobs.find(j => j.id === pred.job_id)
-                const predChainTxs = chainTxs.transactions.filter(tx =>
-                  tx.event === 'PredictionCreated' || tx.event === 'PredictionBetPlaced' || tx.event === 'PredictionSettled'
-                )
+                // Build tx list from this prediction's own data only
+                const thisPredTxHashes = new Set<string>()
+                if (pred.tx_hash) thisPredTxHashes.add(pred.tx_hash)
+                bets.forEach(b => { if (b.tx_hash) thisPredTxHashes.add(b.tx_hash) })
+                const predChainTxs = chainTxs.transactions.filter(tx => thisPredTxHashes.has(tx.hash))
 
                 return (
                   <div key={pred.id} className="card card-glow" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s', ...(isExpanded ? { gridColumn: '1 / -1' } : {}) }}
