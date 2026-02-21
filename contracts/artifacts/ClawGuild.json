@@ -1,0 +1,1247 @@
+{
+  "contractName": "ClawGuild",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "skills",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AgentRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "estimatedDurationMs",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "BidPlaced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "postId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "body",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "tag",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "ForumPostCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "postId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newScore",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "ForumPostUpvoted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "postId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "body",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "ForumReplyCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "JobAssigned",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "artifact",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "JobCompleted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "creatorAgentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "skill",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "budget",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "JobCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "toAgent",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "PaymentSettled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "predictionId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isYes",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "PredictionBetPlaced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "predictionId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "targetAgentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "question",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "PredictionCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "predictionId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "outcome",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalPool",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "PredictionSettled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newReputation",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "change",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "ReputationUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "agentCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "agentExists",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "agentWallet",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "assignJob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "clawBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "artifact",
+          "type": "string"
+        }
+      ],
+      "name": "completeJob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "completionCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "postId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "body",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "tag",
+          "type": "string"
+        }
+      ],
+      "name": "createForumPost",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "postId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "body",
+          "type": "string"
+        }
+      ],
+      "name": "createForumReply",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "creatorAgentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "skill",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "budget",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        }
+      ],
+      "name": "createJob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "predictionId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "targetAgentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "question",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        }
+      ],
+      "name": "createPrediction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "deployer",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "forumPostCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getAgentInfo",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "exists",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rep",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getJobInfo",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "exists",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint8",
+          "name": "status",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "assignee",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getStats",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "agents",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "jobs",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "completions",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlements",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "predictions",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalClaw",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "hasBet",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "hasBid",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "hasUpvoted",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "jobAssignee",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "jobCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "jobExists",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "jobStatus",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "estimatedDurationMs",
+          "type": "uint256"
+        }
+      ],
+      "name": "placeBid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "predictionId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bool",
+          "name": "isYes",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "placePredictionBet",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "predictionCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "predictionExists",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "skills",
+          "type": "string"
+        }
+      ],
+      "name": "registerAgent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "reputation",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "jobId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "toAgent",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "settlePayment",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "predictionId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bool",
+          "name": "outcome",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalPool",
+          "type": "uint256"
+        }
+      ],
+      "name": "settlePrediction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "settlementCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalClawTransferred",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newReputation",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "change",
+          "type": "int256"
+        }
+      ],
+      "name": "updateReputation",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "postId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "agentId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newScore",
+          "type": "uint256"
+        }
+      ],
+      "name": "upvoteForumPost",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600e575f5ffd5b505f80546001600160a01b031916331790556116418061002d5f395ff3fe608060405234801561000f575f5ffd5b5060043610610208575f3560e01c80638e0596a21161011f578063c59d4847116100a9578063e8fa67a411610079578063e8fa67a4146105d0578063e998f09d146105d9578063e9b43b70146105f8578063f6139be914610617578063f6695ade14610636575f5ffd5b8063c59d48471461053f578063c6fa74721461057e578063d3bd8d2614610591578063d5f39488146105be575f5ffd5b8063a5b925d2116100ef578063a5b925d2146104ba578063a901067c146104dc578063a9ee1c3514610510578063b7dc128414610523578063bfb388a11461052c575f5ffd5b80638e0596a21461045e57806392e52c7314610467578063932a6a2d1461047a57806393bf2404146104a7575f5ffd5b806356453424116101a05780637b943578116101705780637b9435781461036d5780637e0db0d9146103ad578063838ed6b2146104255780638ba5cf44146104385780638c68fc301461044b575f5ffd5b806356453424146102ca5780635d9246c9146102dd5780636164626a146102ff578063689872ef1461035a575f5ffd5b8063292503a7116101db578063292503a71461027857806337518fd11461028b5780633eec1c9f146102945780634c5d8a0f146102c1575f5ffd5b8063037eca761461020c578063121c16e41461022857806315762d461461025a57806326010f031461026f575b5f5ffd5b61021560085481565b6040519081526020015b60405180910390f35b61024a610236366004611091565b60106020525f908152604090205460ff1681565b604051901515815260200161021f565b61026d6102683660046110ed565b610649565b005b610215600a5481565b61026d61028636600461113c565b61068c565b610215600b5481565b61024a6102a23660046111b5565b601260209081525f928352604080842090915290825290205460ff1681565b61021560065481565b61026d6102d83660046111d5565b610756565b61024a6102eb366004611091565b600c6020525f908152604090205460ff1681565b61033b61030d366004611091565b5f908152600c6020908152604080832054600e835281842054600d90935292205460ff928316939290911691565b60408051931515845260ff90921660208401529082015260600161021f565b61026d610368366004611286565b6107b9565b61039561037b366004611091565b60046020525f90815260409020546001600160a01b031681565b6040516001600160a01b03909116815260200161021f565b6103fa6103bb366004611091565b5f90815260016020908152604080832054600283528184205460038452828520546004909452919093205460ff9093169390926001600160a01b031690565b6040805194151585526020850193909352918301526001600160a01b0316606082015260800161021f565b61026d6104333660046110ed565b610890565b61026d6104463660046112ea565b6109c1565b61026d610459366004611313565b610aa3565b61021560095481565b61026d610475366004611356565b610bd9565b61024a6104883660046111b5565b601160209081525f928352604080842090915290825290205460ff1681565b61026d6104b5366004611390565b610cf0565b61024a6104c8366004611091565b60016020525f908152604090205460ff1681565b6104fe6104ea366004611091565b600e6020525f908152604090205460ff1681565b60405160ff909116815260200161021f565b61026d61051e3660046112ea565b610dbf565b61021560055481565b61026d61053a366004611420565b610ee0565b600554600654600754600854600954600a54604080519687526020870195909552938501929092526060840152608083015260a082015260c00161021f565b61026d61058c3660046112ea565b610f86565b61024a61059f3660046111b5565b600f60209081525f928352604080842090915290825290205460ff1681565b5f54610395906001600160a01b031681565b61021560075481565b6102156105e7366004611091565b60026020525f908152604090205481565b610215610606366004611091565b60036020525f908152604090205481565b610215610625366004611091565b600d6020525f908152604090205481565b61026d6106443660046112ea565b610fd9565b82847fd1a5c69f8c3d6c6b4496bd1744c36dc20a1cc7d12c58093a6d80d8ee6a95463d84844260405161067e9392919061147b565b60405180910390a350505050565b5f8581526001602052604090205460ff16610705575f8581526001602081905260408220805460ff1916909117905560058054916106c9836114b2565b90915550505f8581526002602090815260408083206032905560038252808320606490556004909152902080546001600160a01b031916331790555b336001600160a01b0316857f1c52bf7246bd0a1066d20d0f90d5c0ffdef5245b6a5af874936f12ce28fca0b086868686426040516107479594939291906114ca565b60405180910390a35050505050565b600b8054905f610765836114b2565b919050555086887f1c6108736326c3a9437ad1423aae76e839ab7e34c827ab56e873b9d1d10d519b888888888888426040516107a79796959493929190611503565b60405180910390a35050505050505050565b5f8681526010602052604090205460ff161561081c5760405162461bcd60e51b815260206004820152601960248201527f50726564696374696f6e20616c7265616479206578697374730000000000000060448201526064015b60405180910390fd5b5f868152601060205260408120805460ff191660011790556009805491610842836114b2565b919050555084867ff7d027220fa178811343fd0904247f301b079fa044061ccb8878adff6beb51b18686868642604051610880959493929190611553565b60405180910390a3505050505050565b5f848152600c602052604090205460ff166108bd5760405162461bcd60e51b815260040161081390611580565b5f848152600e602052604090205460ff166001146109105760405162461bcd60e51b815260206004820152601060248201526f129bd8881b9bdd08185cdcda59db995960821b6044820152606401610813565b5f848152600d602052604090205483146109615760405162461bcd60e51b8152602060048201526012602482015271139bdd08185cdcda59db9959081859d95b9d60721b6044820152606401610813565b5f848152600e60205260408120805460ff191660021790556007805491610987836114b2565b919050555082847fc2b19f57539420c1967f0c3ba56a808705bcc72bd860cbd3443102e02622dd3f84844260405161067e9392919061147b565b5f838152600c602052604090205460ff166109ee5760405162461bcd60e51b815260040161081390611580565b5f838152600e602052604090205460ff1615610a3b5760405162461bcd60e51b815260206004820152600c60248201526b2537b1103737ba1037b832b760a11b6044820152606401610813565b5f838152600e60209081526040808320805460ff19166001179055600d82529182902084905581518381524291810191909152839185917f6c270116db196a3a3ac07d66abc1aa749e840691f86c523245c6c3593f13496491015b60405180910390a3505050565b5f848152600c602052604090205460ff16610ad05760405162461bcd60e51b815260040161081390611580565b5f848152600e602052604090205460ff1615610b1d5760405162461bcd60e51b815260206004820152600c60248201526b2537b1103737ba1037b832b760a11b6044820152606401610813565b5f848152600f6020908152604080832086845290915290205460ff1615610b745760405162461bcd60e51b815260206004820152600b60248201526a105b1c9958591e48189a5960aa1b6044820152606401610813565b5f848152600f60209081526040808320868452825291829020805460ff1916600117905581518481529081018390524291810191909152839085907f8de0e0e32871c3005c7ffbdd4ae1e1c63f779cc75eb5817f639a2d214960c9069060600161067e565b5f8481526010602052604090205460ff16610c325760405162461bcd60e51b8152602060048201526019602482015278141c99591a58dd1a5bdb88191bd95cc81b9bdd08195e1a5cdd603a1b6044820152606401610813565b5f84815260116020908152604080832086845290915290205460ff1615610c895760405162461bcd60e51b815260206004820152600b60248201526a105b1c9958591e4818995d60aa1b6044820152606401610813565b5f848152601160209081526040808320868452825291829020805460ff19166001179055815184151581529081018390524291810191909152839085907f0678f8a66ab4e55f99f22d52663f3572538278e3220917c186d54285b7169faf9060600161067e565b5f888152600c602052604090205460ff1615610d435760405162461bcd60e51b81526020600482015260126024820152714a6f6220616c72656164792065786973747360701b6044820152606401610813565b5f888152600c60209081526040808320805460ff19908116600117909155600e9092528220805490911690556006805491610d7d836114b2565b919050555086887f19f6a80af9b2c95545306f4872886fbdea7bc5b65e10b98836099f7d94a3f697888888888888426040516107a797969594939291906115ac565b5f838152600c602052604090205460ff16610dec5760405162461bcd60e51b815260040161081390611580565b5f838152600e602052604090205460ff16600214610e405760405162461bcd60e51b8152602060048201526011602482015270129bd8881b9bdd0818dbdb5c1b195d1959607a1b6044820152606401610813565b5f838152600e60209081526040808320805460ff1916600390811790915585845290915281208054839290610e769084906115f2565b9250508190555080600a5f828254610e8e91906115f2565b909155505060088054905f610ea2836114b2565b909155505060408051828152426020820152839185917f123a6e3a8f3a8e60b5e3b7c3a08f6c294c6ee12e578d079529bc9d032b8840049101610a96565b5f8381526010602052604090205460ff16610f395760405162461bcd60e51b8152602060048201526019602482015278141c99591a58dd1a5bdb88191bd95cc81b9bdd08195e1a5cdd603a1b6044820152606401610813565b60408051831515815260208101839052429181019190915283907f5542842170fdfc928cb830dbd6538f62ddcdf5cdd587c6d96bf43ceb3ef4f2da906060015b60405180910390a2505050565b5f838152600260209081526040918290208490558151848152908101839052429181019190915283907f8ebda2139b957fb5b951d251c4cb9f27f6872d3adc090b4c129d36408875c88290606001610f79565b5f83815260126020908152604080832085845290915290205460ff16156110345760405162461bcd60e51b815260206004820152600f60248201526e105b1c9958591e481d5c1d9bdd1959608a1b6044820152606401610813565b5f838152601260209081526040808320858452825291829020805460ff1916600117905581518381524291810191909152839185917faac3f9686d32609c7935a0a23b4d35161465b9e6d44584c5f950dd64c1cf83489101610a96565b5f602082840312156110a1575f5ffd5b5035919050565b5f5f83601f8401126110b8575f5ffd5b50813567ffffffffffffffff8111156110cf575f5ffd5b6020830191508360208285010111156110e6575f5ffd5b9250929050565b5f5f5f5f60608587031215611100575f5ffd5b8435935060208501359250604085013567ffffffffffffffff811115611124575f5ffd5b611130878288016110a8565b95989497509550505050565b5f5f5f5f5f60608688031215611150575f5ffd5b85359450602086013567ffffffffffffffff81111561116d575f5ffd5b611179888289016110a8565b909550935050604086013567ffffffffffffffff811115611198575f5ffd5b6111a4888289016110a8565b969995985093965092949392505050565b5f5f604083850312156111c6575f5ffd5b50508035926020909101359150565b5f5f5f5f5f5f5f5f60a0898b0312156111ec575f5ffd5b8835975060208901359650604089013567ffffffffffffffff811115611210575f5ffd5b61121c8b828c016110a8565b909750955050606089013567ffffffffffffffff81111561123b575f5ffd5b6112478b828c016110a8565b909550935050608089013567ffffffffffffffff811115611266575f5ffd5b6112728b828c016110a8565b999c989b5096995094979396929594505050565b5f5f5f5f5f5f60a0878903121561129b575f5ffd5b863595506020870135945060408701359350606087013567ffffffffffffffff8111156112c6575f5ffd5b6112d289828a016110a8565b979a9699509497949695608090950135949350505050565b5f5f5f606084860312156112fc575f5ffd5b505081359360208301359350604090920135919050565b5f5f5f5f60808587031215611326575f5ffd5b5050823594602084013594506040840135936060013592509050565b80358015158114611351575f5ffd5b919050565b5f5f5f5f60808587031215611369575f5ffd5b843593506020850135925061138060408601611342565b9396929550929360600135925050565b5f5f5f5f5f5f5f5f60c0898b0312156113a7575f5ffd5b8835975060208901359650604089013567ffffffffffffffff8111156113cb575f5ffd5b6113d78b828c016110a8565b909750955050606089013567ffffffffffffffff8111156113f6575f5ffd5b6114028b828c016110a8565b999c989b5096999598969760808701359660a0013595509350505050565b5f5f5f60608486031215611432575f5ffd5b8335925061144260208501611342565b929592945050506040919091013590565b81835281816020850137505f828201602090810191909152601f909101601f19169091010190565b604081525f61148e604083018587611453565b9050826020830152949350505050565b634e487b7160e01b5f52601160045260245ffd5b5f600182016114c3576114c361149e565b5060010190565b606081525f6114dd606083018789611453565b82810360208401526114f0818688611453565b9150508260408301529695505050505050565b608081525f61151660808301898b611453565b828103602084015261152981888a611453565b9050828103604084015261153e818688611453565b91505082606083015298975050505050505050565b858152608060208201525f61156c608083018688611453565b604083019490945250606001529392505050565b602080825260129082015271129bd888191bd95cc81b9bdd08195e1a5cdd60721b604082015260600190565b60a081525f6115bf60a08301898b611453565b82810360208401526115d281888a611453565b604084019690965250506060810192909252608090910152949350505050565b808201808211156116055761160561149e565b9291505056fea26469706673582212204e6b1f4635d9a4e8d1c50213cd8a7feed32dca3c8e43b2d82e00e98364a0374d64736f6c634300081c0033"
+}

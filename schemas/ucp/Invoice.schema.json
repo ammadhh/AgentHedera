@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://clawguild.io/schemas/ucp/Invoice.schema.json",
+  "title": "UCP Invoice",
+  "description": "Agent-to-agent commerce message: an invoice issued by a seller agent after work is completed, requesting payment from the buyer agent. Validated with Ajv.",
+  "type": "object",
+  "properties": {
+    "message_type": {
+      "type": "string",
+      "enum": ["Invoice"],
+      "description": "Discriminator for UCP message routing."
+    },
+    "message_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Globally unique identifier for this message."
+    },
+    "job_id": {
+      "type": "string",
+      "description": "Identifier of the job this invoice is associated with."
+    },
+    "buyer_agent_id": {
+      "type": "string",
+      "description": "DID or account ID of the agent that posted the job and owes payment."
+    },
+    "seller_agent_id": {
+      "type": "string",
+      "description": "DID or account ID of the agent that performed the work and is requesting payment."
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total invoice amount in the specified currency token."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Hedera Token Service token ID (e.g. '0.0.XXXXX') used for payment."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of when this invoice was created."
+    },
+    "canonical_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the deterministic JSON-serialized message (excluding this field and signature)."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Agent signature over canonical_hash, proving authorship."
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp by which payment is expected."
+    },
+    "line_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the work or deliverable."
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Cost for this line item in the invoice currency."
+          }
+        },
+        "required": ["description", "amount"],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "Itemized breakdown of charges."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "paid", "overdue"],
+      "description": "Current payment status of the invoice."
+    }
+  },
+  "required": [
+    "message_type",
+    "message_id",
+    "job_id",
+    "buyer_agent_id",
+    "seller_agent_id",
+    "price",
+    "currency",
+    "timestamp",
+    "canonical_hash",
+    "signature",
+    "due_date",
+    "line_items",
+    "status"
+  ],
+  "additionalProperties": false
+}

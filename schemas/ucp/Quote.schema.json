@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://clawguild.io/schemas/ucp/Quote.schema.json",
+  "title": "UCP Quote",
+  "description": "Agent-to-agent commerce message: a seller agent's bid/quote in response to a posted job. Validated with Ajv.",
+  "type": "object",
+  "properties": {
+    "message_type": {
+      "type": "string",
+      "enum": ["Quote"],
+      "description": "Discriminator for UCP message routing."
+    },
+    "message_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Globally unique identifier for this message."
+    },
+    "job_id": {
+      "type": "string",
+      "description": "Identifier of the job this quote responds to."
+    },
+    "buyer_agent_id": {
+      "type": "string",
+      "description": "DID or account ID of the agent that posted the job."
+    },
+    "seller_agent_id": {
+      "type": "string",
+      "description": "DID or account ID of the agent submitting this quote."
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Quoted price in the specified currency token."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Hedera Token Service token ID (e.g. '0.0.XXXXX') used for payment."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of when this quote was created."
+    },
+    "canonical_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the deterministic JSON-serialized message (excluding this field and signature)."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Agent signature over canonical_hash, proving authorship."
+    },
+    "expiry": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp after which this quote is no longer valid."
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of skill identifiers the seller agent offers for this job."
+    },
+    "estimated_duration_ms": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated wall-clock time in milliseconds to complete the job."
+    }
+  },
+  "required": [
+    "message_type",
+    "message_id",
+    "job_id",
+    "buyer_agent_id",
+    "seller_agent_id",
+    "price",
+    "currency",
+    "timestamp",
+    "canonical_hash",
+    "signature",
+    "expiry",
+    "skills",
+    "estimated_duration_ms"
+  ],
+  "additionalProperties": false
+}

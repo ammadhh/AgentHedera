@@ -1,0 +1,6 @@
+packages:
+  - "backend"
+  - "agents"
+  - "ui"
+  - "schemas"
+  - "contracts"

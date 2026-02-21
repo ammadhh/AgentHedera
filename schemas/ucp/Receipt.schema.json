@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://clawguild.io/schemas/ucp/Receipt.schema.json",
+  "title": "UCP Receipt",
+  "description": "Agent-to-agent commerce message: a receipt confirming payment has been made, anchored to a Hedera Consensus Service sequence number for on-chain attestation. Validated with Ajv.",
+  "type": "object",
+  "properties": {
+    "message_type": {
+      "type": "string",
+      "enum": ["Receipt"],
+      "description": "Discriminator for UCP message routing."
+    },
+    "message_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Globally unique identifier for this message."
+    },
+    "job_id": {
+      "type": "string",
+      "description": "Identifier of the job this receipt closes out."
+    },
+    "buyer_agent_id": {
+      "type": "string",
+      "description": "DID or account ID of the agent that made the payment."
+    },
+    "seller_agent_id": {
+      "type": "string",
+      "description": "DID or account ID of the agent that received the payment."
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Amount paid in the specified currency token."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Hedera Token Service token ID (e.g. '0.0.XXXXX') used for payment."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of when this receipt was created."
+    },
+    "canonical_hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the deterministic JSON-serialized message (excluding this field and signature)."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Agent signature over canonical_hash, proving authorship."
+    },
+    "invoice_id": {
+      "type": "string",
+      "description": "message_id of the Invoice this receipt settles."
+    },
+    "payment_tx_id": {
+      "type": "string",
+      "description": "Hedera transaction ID (e.g. '0.0.XXXXX@1234567890.123456789') confirming the token transfer."
+    },
+    "payment_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of when the on-chain payment was confirmed."
+    },
+    "hcs_sequence_number": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Hedera Consensus Service sequence number for the attestation message anchoring this receipt on-chain."
+    }
+  },
+  "required": [
+    "message_type",
+    "message_id",
+    "job_id",
+    "buyer_agent_id",
+    "seller_agent_id",
+    "price",
+    "currency",
+    "timestamp",
+    "canonical_hash",
+    "signature",
+    "invoice_id",
+    "payment_tx_id",
+    "payment_timestamp",
+    "hcs_sequence_number"
+  ],
+  "additionalProperties": false
+}

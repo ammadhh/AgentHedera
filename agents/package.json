@@ -1,0 +1,20 @@
+{
+  "name": "@clawguild/agents",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/runner.ts",
+    "build": "tsc",
+    "start": "node dist/runner.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.7",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

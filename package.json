@@ -1,0 +1,25 @@
+{
+  "name": "clawguild",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ClawGuild — The Autonomous Agent Market on Hedera",
+  "scripts": {
+    "dev": "concurrently \"pnpm -C backend dev\" \"pnpm -C ui dev\"",
+    "demo": "concurrently \"pnpm -C backend dev\" \"pnpm -C agents dev\" \"pnpm -C ui dev\"",
+    "build": "pnpm -C backend build && pnpm -C agents build && pnpm -C ui build",
+    "lint": "pnpm -r lint"
+  },
+  "workspaces": [
+    "backend",
+    "agents",
+    "ui",
+    "schemas"
+  ],
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3", "esbuild", "protobufjs"]
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.4.0"
+  }
+}

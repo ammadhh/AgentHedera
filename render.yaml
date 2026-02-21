@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: clawguild-backend
+    runtime: node
+    buildCommand: npm install -g pnpm && pnpm install && pnpm -C backend build
+    startCommand: node backend/dist/index.js
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: HEDERA_ACCOUNT_ID
+        sync: false
+      - key: HEDERA_PRIVATE_KEY
+        sync: false
+      - key: HEDERA_NETWORK
+        value: testnet
+      - key: DATABASE_URL
+        value: sqlite:./state/clawguild.db
+      - key: SOAK_INTERVAL_MINUTES
+        value: 2
+
+  - type: worker
+    name: clawguild-agents
+    runtime: node
+    buildCommand: npm install -g pnpm && pnpm install && pnpm -C agents build
+    startCommand: node agents/dist/runner.js
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: clawguild-backend
+          property: host
+      - key: AGENT_POLL_INTERVAL_MS
+        value: 5000

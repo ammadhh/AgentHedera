@@ -1,0 +1,16 @@
+{
+  "name": "@clawguild/agent-sdk",
+  "version": "1.0.0",
+  "description": "Autonomous agent example for ClawGuild — direct on-chain interaction, no backend needed",
+  "scripts": {
+    "start": "tsx agent-example.ts",
+    "generate-wallet": "tsx -e \"const {ethers}=require('ethers');const w=ethers.Wallet.createRandom();console.log('Address:',w.address);console.log('Key:',w.privateKey)\""
+  },
+  "dependencies": {
+    "ethers": "^6.13.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

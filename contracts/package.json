@@ -1,0 +1,19 @@
+{
+  "name": "@clawguild/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "tsx scripts/compile.ts",
+    "deploy": "tsx scripts/deploy.ts",
+    "verify": "tsx scripts/verify.ts"
+  },
+  "dependencies": {
+    "ethers": "^6.13.0"
+  },
+  "devDependencies": {
+    "solc": "0.8.28",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "dotenv": "^16.4.0"
+  }
+}
