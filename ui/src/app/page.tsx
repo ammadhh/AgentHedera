@@ -261,7 +261,7 @@ export default function Dashboard() {
             </div>
 
             {/* Pipeline + Agent Network */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 16, marginBottom: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 16, marginBottom: 20 }}>
               {/* Pipeline Visualization */}
               <div className="card card-glow" style={{ padding: 24 }}>
                 <SectionTitle icon={'\u{1F500}'} title="Autonomous Pipeline" subtitle={`${completionRate}% completion rate`} />
@@ -309,7 +309,7 @@ export default function Dashboard() {
                                 fontSize: 10, borderLeft: `3px solid ${color}`, textAlign: 'left',
                                 transition: 'all 0.2s', border: `1px solid ${color}15`,
                               }}>
-                              <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--text-secondary)' }}>{j.title}</div>
+                              <div style={{ fontWeight: 600, color: 'var(--text-secondary)', lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{j.title}</div>
                               {j.assigned_agent_id && <div style={{ color: 'var(--text-dim)', marginTop: 2, fontSize: 9 }}>{agentName(j.assigned_agent_id)}</div>}
                             </div>
                           ))}
@@ -325,57 +325,43 @@ export default function Dashboard() {
                 <SectionTitle icon={'\u{1F916}'} title="Agent Society" subtitle={`${agents.length} autonomous agents`} />
 
                 {/* Network visualization */}
-                <div style={{ position: 'relative', height: 120, margin: '16px 0' }}>
-                  <svg width="100%" height="100%" viewBox="0 0 360 120" style={{ position: 'absolute', inset: 0 }}>
-                    {/* Connection lines between agents */}
-                    {agents.length >= 2 && agents.map((a, i) => agents.slice(i + 1).map((b, j) => {
-                      const x1 = 60 + i * 140
-                      const x2 = 60 + (i + j + 1) * 140
-                      return <line key={`${a.id}-${b.id}`} className="network-line" x1={x1} y1={60} x2={x2} y2={60} stroke="rgba(0,82,255,0.15)" strokeWidth="1.5" />
-                    }))}
-                  </svg>
-                  {agents.map((a, i) => {
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 6, flexWrap: 'wrap', margin: '16px 0' }}>
+                  {agents.slice(0, 6).map((a, i) => {
                     const colors = getAgentColor(a.name)
-                    const x = 40 + i * 140
                     return (
                       <div key={a.id} className="animate-float" style={{
-                        position: 'absolute', left: x, top: 28, animationDelay: `${i * 200}ms`,
-                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+                        animationDelay: `${i * 200}ms`,
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                       }}>
                         <div className="agent-avatar" style={{
-                          width: 44, height: 44, background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-                          color: 'white', boxShadow: `0 0 16px ${colors.primary}40`,
+                          width: 40, height: 40, fontSize: 13, background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                          color: 'white', boxShadow: `0 0 12px ${colors.primary}30`,
                         }}>
                           {colors.letter}
                         </div>
-                        <div style={{ fontSize: 10, fontWeight: 700, color: colors.primary, textAlign: 'center', whiteSpace: 'nowrap' }}>{a.name.split('-')[0]}</div>
+                        <div style={{ fontSize: 9, fontWeight: 700, color: colors.primary, textAlign: 'center', maxWidth: 48, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.name.split('-')[0]}</div>
                       </div>
                     )
                   })}
                 </div>
 
                 {/* Agent mini-stats */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {agents.map(a => {
                     const colors = getAgentColor(a.name)
                     const earnings = transfers.filter(t => t.to_agent_id === a.id).reduce((s, t) => s + t.amount, 0)
                     return (
-                      <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 10, background: 'var(--bg-input)', border: '1px solid var(--border)' }}>
-                        <div className="agent-avatar" style={{ width: 28, height: 28, fontSize: 11, background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`, color: 'white', borderRadius: 8 }}>
+                      <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 8, background: 'var(--bg-input)', border: '1px solid var(--border)' }}>
+                        <div className="agent-avatar" style={{ width: 24, height: 24, fontSize: 10, background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`, color: 'white', borderRadius: 6, flexShrink: 0 }}>
                           {colors.letter}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                            <span style={{ fontSize: 12, fontWeight: 600 }}>{a.name}</span>
-                            <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>
-                              {a.completions} done {'\u2022'} {earnings} CLAW
-                            </span>
-                          </div>
-                          <div style={{ height: 3, background: 'var(--border)', borderRadius: 2, overflow: 'hidden' }}>
-                            <div style={{ height: '100%', borderRadius: 2, background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`, width: `${a.reputation}%`, transition: 'width 0.8s ease' }} />
+                          <div style={{ fontSize: 11, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.name}</div>
+                          <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>
+                            {a.completions} done {'\u2022'} {earnings} CLAW
                           </div>
                         </div>
-                        <div style={{ fontSize: 14, fontWeight: 800, color: colors.primary, fontFamily: "'JetBrains Mono', monospace", width: 32, textAlign: 'right' }}>{a.reputation}</div>
+                        <div style={{ fontSize: 13, fontWeight: 800, color: colors.primary, fontFamily: "'JetBrains Mono', monospace", flexShrink: 0 }}>{a.reputation}</div>
                       </div>
                     )
                   })}
