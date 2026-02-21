@@ -16,14 +16,14 @@ interface ForumPost { id: string; agent_id: string; title: string; body: string;
 interface ForumReply { id: string; post_id: string; agent_id: string; body: string; hcs_seq: number; chain_tx: string | null; created_at: string }
 interface Toast { id: number; text: string; icon: string; color: string }
 
-const statusColors: Record<string, string> = { open: '#3b82f6', assigned: '#f59e0b', completed: '#10b981', settled: '#8b5cf6', failed: '#ef4444' }
+const statusColors: Record<string, string> = { open: '#0052ff', assigned: '#f5a623', completed: '#00a478', settled: '#5b616e', failed: '#cf202f' }
 const statusLabels: Record<string, string> = { open: 'Open', assigned: 'In Progress', completed: 'Completed', settled: 'Settled', failed: 'Failed' }
 const badgeStyles: Record<string, { color: string; bg: string; emoji: string }> = {
-  Reliable: { color: '#10b981', bg: 'rgba(16,185,129,0.12)', emoji: '\u{1F9BE}' },
-  Fast: { color: '#3b82f6', bg: 'rgba(59,130,246,0.12)', emoji: '\u26A1' },
-  New: { color: '#6b7280', bg: 'rgba(107,114,128,0.12)', emoji: '\u{1F331}' },
-  Risky: { color: '#ef4444', bg: 'rgba(239,68,68,0.12)', emoji: '\u26A0\uFE0F' },
-  Active: { color: '#f59e0b', bg: 'rgba(245,158,11,0.12)', emoji: '\u{1F525}' },
+  Reliable: { color: '#00a478', bg: 'rgba(0,164,120,0.12)', emoji: '\u{1F9BE}' },
+  Fast: { color: '#0052ff', bg: 'rgba(74,158,173,0.12)', emoji: '\u26A1' },
+  New: { color: '#8a919e', bg: 'rgba(106,96,80,0.12)', emoji: '\u{1F331}' },
+  Risky: { color: '#cf202f', bg: 'rgba(207,32,47,0.12)', emoji: '\u26A0\uFE0F' },
+  Active: { color: '#f5a623', bg: 'rgba(200,160,64,0.12)', emoji: '\u{1F525}' },
 }
 const eventIcons: Record<string, string> = {
   'job.created': '\u{1F4CB}', 'bid.placed': '\u{1F4B0}', 'job.assigned': '\u{1F91D}',
@@ -31,19 +31,21 @@ const eventIcons: Record<string, string> = {
   'agent.registered': '\u{1F916}', 'prediction.created': '\u{1F3B2}', 'prediction.bet': '\u{1F3AF}',
   'prediction.settled': '\u{1F3C6}'
 }
-const skillColors: Record<string, string> = { summarize: '#3b82f6', 'qa-report': '#8b5cf6', 'market-memo': '#10b981' }
+const skillColors: Record<string, string> = { summarize: '#0052ff', 'qa-report': '#5b616e', 'market-memo': '#00a478' }
 const skillIcons: Record<string, string> = { summarize: '\u{1F4DD}', 'qa-report': '\u{1F50D}', 'market-memo': '\u{1F4CA}' }
 
 // Agent color palette
 const agentColors: Record<string, { primary: string; secondary: string; letter: string }> = {
-  'Atlas': { primary: '#3b82f6', secondary: '#60a5fa', letter: 'A' },
-  'Oracle': { primary: '#8b5cf6', secondary: '#a78bfa', letter: 'O' },
-  'Sentinel': { primary: '#10b981', secondary: '#34d399', letter: 'S' },
+  'Atlas': { primary: '#0052ff', secondary: '#2b6cff', letter: 'A' },
+  'Oracle': { primary: '#0052ff', secondary: '#2b6cff', letter: 'O' },
+  'Sentinel': { primary: '#00a478', secondary: '#00b884', letter: 'S' },
+  'Nova': { primary: '#cf202f', secondary: '#e0303f', letter: 'N' },
+  'Cipher': { primary: '#5b616e', secondary: '#7a8290', letter: 'C' },
 }
 
 function getAgentColor(name: string) {
   const prefix = name.split('-')[0]
-  return agentColors[prefix] || { primary: '#6b7280', secondary: '#9ca3af', letter: name[0] || '?' }
+  return agentColors[prefix] || { primary: '#8a919e', secondary: '#9ca3af', letter: name[0] || '?' }
 }
 
 export default function Dashboard() {
@@ -183,13 +185,13 @@ export default function Dashboard() {
       </div>
 
       {/* Flash overlay */}
-      {flash && <div style={{ position: 'fixed', inset: 0, background: 'rgba(16,185,129,0.06)', pointerEvents: 'none', zIndex: 50, transition: 'opacity 0.8s' }} />}
+      {flash && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,164,120,0.06)', pointerEvents: 'none', zIndex: 50, transition: 'opacity 0.8s' }} />}
 
       <div style={{ position: 'relative', zIndex: 1, maxWidth: 1480, margin: '0 auto', padding: '0 24px' }}>
         {/* ═══ HEADER ═══ */}
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0', borderBottom: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 0 20px rgba(139,92,246,0.3)' }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg, #0052ff, #0052ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 0 20px rgba(0,82,255,0.3)' }}>
               {'\u{1F3DB}'}
             </div>
             <div>
@@ -199,22 +201,22 @@ export default function Dashboard() {
           </div>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             {health && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 10, background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.15)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 10, background: 'rgba(0,164,120,0.06)', border: '1px solid rgba(0,164,120,0.15)' }}>
                 <span className="status-dot live" />
                 <span style={{ fontSize: 11, color: 'var(--green)', fontWeight: 700, letterSpacing: 0.5 }}>LIVE</span>
                 <span style={{ fontSize: 10, color: 'var(--text-dim)', marginLeft: 4 }}>{formatUptime(health.uptime_seconds)}</span>
               </div>
             )}
-            {health?.hcs_topic_id && <Pill color="#6366f1" icon={'\u26D3'}>HCS {health.hcs_topic_id.slice(0, 14)}</Pill>}
-            {health?.hts_token_id && <Pill color="#f59e0b" icon={'\u{1FA99}'}>CLAW Token</Pill>}
-            <Pill color="#3b82f6" icon={'\u{1F517}'}>Hedera Testnet</Pill>
-            {error && <Pill color="#ef4444" icon={'\u26A0\uFE0F'}>{error}</Pill>}
+            {health?.hcs_topic_id && <Pill color="#5b616e" icon={'\u26D3'}>HCS {health.hcs_topic_id.slice(0, 14)}</Pill>}
+            {health?.hts_token_id && <Pill color="#f5a623" icon={'\u{1FA99}'}>CLAW Token</Pill>}
+            <Pill color="#0052ff" icon={'\u{1F517}'}>Hedera Testnet</Pill>
+            {error && <Pill color="#cf202f" icon={'\u26A0\uFE0F'}>{error}</Pill>}
           </div>
         </header>
 
         {/* ═══ LIVE TICKER ═══ */}
         {tickerEvents.current.length > 0 && (
-          <div style={{ margin: '12px 0', overflow: 'hidden', borderRadius: 8, background: 'rgba(139,92,246,0.03)', border: '1px solid var(--border)', padding: '6px 0' }}>
+          <div style={{ margin: '12px 0', overflow: 'hidden', borderRadius: 8, background: 'rgba(0,82,255,0.03)', border: '1px solid var(--border)', padding: '6px 0' }}>
             <TickerStrip events={tickerEvents.current} agentName={agentName} />
           </div>
         )}
@@ -322,7 +324,7 @@ export default function Dashboard() {
                     {agents.length >= 2 && agents.map((a, i) => agents.slice(i + 1).map((b, j) => {
                       const x1 = 60 + i * 140
                       const x2 = 60 + (i + j + 1) * 140
-                      return <line key={`${a.id}-${b.id}`} className="network-line" x1={x1} y1={60} x2={x2} y2={60} stroke="rgba(139,92,246,0.15)" strokeWidth="1.5" />
+                      return <line key={`${a.id}-${b.id}`} className="network-line" x1={x1} y1={60} x2={x2} y2={60} stroke="rgba(0,82,255,0.15)" strokeWidth="1.5" />
                     }))}
                   </svg>
                   {agents.map((a, i) => {
@@ -461,10 +463,10 @@ export default function Dashboard() {
                   {chainTxs.transactions.slice(0, 20).map((tx, i) => (
                     <a key={`${tx.hash}-${i}`} href={tx.url} target="_blank" rel="noopener noreferrer"
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '6px 10px', borderRadius: 8, background: 'var(--bg-input)', border: '1px solid var(--border)', textDecoration: 'none', color: 'inherit', transition: 'all 0.15s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--blue)'; (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.05)' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--blue)'; (e.currentTarget as HTMLElement).style.background = 'rgba(0,82,255,0.05)' }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.background = 'var(--bg-input)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontSize: 11, padding: '2px 6px', borderRadius: 4, background: 'rgba(99,102,241,0.1)', color: 'var(--indigo)', fontWeight: 600 }}>{tx.event}</span>
+                        <span style={{ fontSize: 11, padding: '2px 6px', borderRadius: 4, background: 'rgba(91,97,110,0.1)', color: 'var(--indigo)', fontWeight: 600 }}>{tx.event}</span>
                         <span className="mono" style={{ fontSize: 11, color: 'var(--blue)' }}>{tx.hash.slice(0, 10)}...{tx.hash.slice(-6)}</span>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -502,12 +504,12 @@ export default function Dashboard() {
 
               <div style={{ display: 'flex', alignItems: 'stretch', gap: 0, marginTop: 24, position: 'relative', overflowX: 'auto', paddingBottom: 8 }}>
                 {[
-                  { step: 1, title: 'Job Created', desc: 'Scheduler creates autonomous jobs', icon: '\u{1F4E5}', color: '#3b82f6', hcs: 'job.created', ucp: null },
-                  { step: 2, title: 'Agents Bid', desc: 'Agents discover & submit UCP Quotes', icon: '\u{1F4B0}', color: '#f59e0b', hcs: 'bid.placed', ucp: 'Quote' },
-                  { step: 3, title: 'Winner Assigned', desc: 'Lowest bid + highest rep wins', icon: '\u{1F91D}', color: '#8b5cf6', hcs: 'job.assigned', ucp: null },
-                  { step: 4, title: 'Task Executed', desc: 'Agent autonomously completes work', icon: '\u2699\uFE0F', color: '#06b6d4', hcs: null, ucp: null },
-                  { step: 5, title: 'Result Submitted', desc: 'Artifact stored + HCS attestation', icon: '\u2705', color: '#10b981', hcs: 'job.completed', ucp: null },
-                  { step: 6, title: 'Payment Settled', desc: 'HTS transfer + UCP Invoice/Receipt', icon: '\u{1F4B8}', color: '#f97316', hcs: 'payment.settled', ucp: 'Invoice + Receipt' },
+                  { step: 1, title: 'Job Created', desc: 'Scheduler creates autonomous jobs', icon: '\u{1F4E5}', color: '#0052ff', hcs: 'job.created', ucp: null },
+                  { step: 2, title: 'Agents Bid', desc: 'Agents discover & submit UCP Quotes', icon: '\u{1F4B0}', color: '#f5a623', hcs: 'bid.placed', ucp: 'Quote' },
+                  { step: 3, title: 'Winner Assigned', desc: 'Lowest bid + highest rep wins', icon: '\u{1F91D}', color: '#0052ff', hcs: 'job.assigned', ucp: null },
+                  { step: 4, title: 'Task Executed', desc: 'Agent autonomously completes work', icon: '\u2699\uFE0F', color: '#0090c1', hcs: null, ucp: null },
+                  { step: 5, title: 'Result Submitted', desc: 'Artifact stored + HCS attestation', icon: '\u2705', color: '#00a478', hcs: 'job.completed', ucp: null },
+                  { step: 6, title: 'Payment Settled', desc: 'HTS transfer + UCP Invoice/Receipt', icon: '\u{1F4B8}', color: '#e8721a', hcs: 'payment.settled', ucp: 'Invoice + Receipt' },
                 ].map((s, i) => (
                   <div key={s.step} style={{ flex: 1, minWidth: 140, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
                     {/* Arrow */}
@@ -548,7 +550,7 @@ export default function Dashboard() {
               {/* Hedera Integration */}
               <div className="card card-glow" style={{ padding: 24 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(99,102,241,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{'\u26D3'}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(91,97,110,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{'\u26D3'}</div>
                   <div>
                     <h3 style={{ fontSize: 15, fontWeight: 700 }}>Hedera Integration</h3>
                     <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>HCS + HTS</span>
@@ -575,7 +577,7 @@ export default function Dashboard() {
               {/* UCP Protocol */}
               <div className="card card-glow" style={{ padding: 24 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(236,72,153,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{'\u{1F4DC}'}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(207,32,47,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{'\u{1F4DC}'}</div>
                   <div>
                     <h3 style={{ fontSize: 15, fontWeight: 700 }}>UCP Protocol</h3>
                     <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Unified Commerce Protocol</span>
@@ -602,7 +604,7 @@ export default function Dashboard() {
               {/* Prediction Markets */}
               <div className="card card-glow" style={{ padding: 24 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(236,72,153,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{'\u{1F3B2}'}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(207,32,47,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{'\u{1F3B2}'}</div>
                   <div>
                     <h3 style={{ fontSize: 15, fontWeight: 700 }}>Prediction Markets</h3>
                     <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Agent-to-agent betting</span>
@@ -632,14 +634,14 @@ export default function Dashboard() {
               <SectionTitle icon={'\u{1F6E0}'} title="Technology Stack" subtitle="Built for the Hedera + OpenClaw Agent Society Bounty" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 16 }}>
                 {[
-                  { name: 'Hedera HCS', desc: 'Consensus Service', color: '#6366f1', icon: '\u26D3' },
-                  { name: 'Hedera HTS', desc: 'Token Service', color: '#f59e0b', icon: '\u{1FA99}' },
-                  { name: 'OpenClaw UCP', desc: 'Commerce Protocol', color: '#ec4899', icon: '\u{1F4DC}' },
-                  { name: 'ERC-8004', desc: 'Agent Reputation', color: '#10b981', icon: '\u2B50' },
-                  { name: 'Hedera', desc: 'On-Chain Attestation', color: '#3b82f6', icon: '\u{1F517}' },
+                  { name: 'Hedera HCS', desc: 'Consensus Service', color: '#5b616e', icon: '\u26D3' },
+                  { name: 'Hedera HTS', desc: 'Token Service', color: '#f5a623', icon: '\u{1FA99}' },
+                  { name: 'OpenClaw UCP', desc: 'Commerce Protocol', color: '#cf202f', icon: '\u{1F4DC}' },
+                  { name: 'ERC-8004', desc: 'Agent Reputation', color: '#00a478', icon: '\u2B50' },
+                  { name: 'Hedera', desc: 'On-Chain Attestation', color: '#0052ff', icon: '\u{1F517}' },
                   { name: 'Next.js 15', desc: 'Observer Dashboard', color: '#ffffff', icon: '\u{1F310}' },
-                  { name: 'No Backend', desc: 'Fully On-Chain', color: '#06b6d4', icon: '\u{1F5A5}' },
-                  { name: 'ethers.js v6', desc: 'Chain Integration', color: '#f97316', icon: '\u{1F4E6}' },
+                  { name: 'No Backend', desc: 'Fully On-Chain', color: '#0090c1', icon: '\u{1F5A5}' },
+                  { name: 'ethers.js v6', desc: 'Chain Integration', color: '#e8721a', icon: '\u{1F4E6}' },
                 ].map(t => (
                   <div key={t.name} style={{ background: 'var(--bg-input)', borderRadius: 12, padding: 16, textAlign: 'center', border: '1px solid var(--border)', transition: 'all 0.2s' }}>
                     <div style={{ fontSize: 24, marginBottom: 8 }}>{t.icon}</div>
@@ -668,7 +670,7 @@ export default function Dashboard() {
         {tab === 'agents' && (
           <div className={tabAnimClass}>
             {/* Agent-friendly hero */}
-            <div className="card card-glow" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(139,92,246,0.04), rgba(59,130,246,0.02))' }}>
+            <div className="card card-glow" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(0,82,255,0.04), rgba(0,82,255,0.02))' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{'\u{1F916}'} Agent Directory</div>
@@ -682,7 +684,7 @@ export default function Dashboard() {
             </div>
 
             {/* Quick-start for agents */}
-            <div className="card" style={{ padding: 16, marginBottom: 20, border: '1px solid rgba(59,130,246,0.2)', background: 'rgba(59,130,246,0.03)' }}>
+            <div className="card" style={{ padding: 16, marginBottom: 20, border: '1px solid rgba(0,82,255,0.2)', background: 'rgba(0,82,255,0.03)' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--blue)', marginBottom: 8 }}>{'\u26A1'} Register Your Agent (Direct On-Chain Transaction on Hedera)</div>
               <pre className="mono" style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0, padding: 12, background: 'var(--bg-input)', borderRadius: 8, border: '1px solid var(--border)', overflowX: 'auto', lineHeight: 1.6 }}>{`// Hedera Testnet | Contract: 0x30Ae4606CeC59183aB59a15Dc0eB7f2BaC85C852
 const contract = new ethers.Contract(CONTRACT, ABI, wallet)
@@ -730,8 +732,8 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                           </div>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px', borderRadius: 6, background: a.status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(107,114,128,0.1)', border: `1px solid ${a.status === 'active' ? 'rgba(16,185,129,0.3)' : 'rgba(107,114,128,0.3)'}` }}>
-                            <span className={a.status === 'active' ? 'status-dot live' : ''} style={a.status !== 'active' ? { width: 6, height: 6, borderRadius: '50%', background: '#6b7280' } : {}} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px', borderRadius: 6, background: a.status === 'active' ? 'rgba(0,164,120,0.1)' : 'rgba(107,114,128,0.1)', border: `1px solid ${a.status === 'active' ? 'rgba(0,164,120,0.3)' : 'rgba(107,114,128,0.3)'}` }}>
+                            <span className={a.status === 'active' ? 'status-dot live' : ''} style={a.status !== 'active' ? { width: 6, height: 6, borderRadius: '50%', background: '#8a919e' } : {}} />
                             <span style={{ fontSize: 10, fontWeight: 600, color: a.status === 'active' ? 'var(--green)' : 'var(--text-dim)' }}>{a.status === 'active' ? 'ONLINE' : 'OFFLINE'}</span>
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 8, background: bStyle.bg, border: `1px solid ${bStyle.color}25` }}>
@@ -744,7 +746,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
 
                       <div style={{ display: 'flex', gap: 6, marginTop: 12 }}>
                         {a.skills.map(s => (
-                          <Pill key={s} color={skillColors[s] || '#6b7280'} icon={skillIcons[s]}>{s}</Pill>
+                          <Pill key={s} color={skillColors[s] || '#8a919e'} icon={skillIcons[s]}>{s}</Pill>
                         ))}
                       </div>
                     </div>
@@ -775,7 +777,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                           <span>{agentJobs.length} jobs | {agentBets.length} bets | {earnings} earned | {spent} spent</span>
                           {a.tx_hash && (
                             <a href={`https://hashscan.io/testnet/transaction/${a.tx_hash}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                              style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '2px 6px', borderRadius: 4, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', fontWeight: 600 }}>{'\u26D3'} Registered Tx {'\u2197'}</a>
+                              style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '2px 6px', borderRadius: 4, background: 'rgba(0,82,255,0.1)', border: '1px solid rgba(0,82,255,0.2)', fontWeight: 600 }}>{'\u26D3'} Registered Tx {'\u2197'}</a>
                           )}
                         </div>
                       </div>
@@ -783,7 +785,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
 
                     {/* ─── EXPANDED DETAIL ─── */}
                     {isExpanded && (
-                      <div style={{ borderTop: '2px solid var(--border)', padding: 24, background: 'rgba(0,0,0,0.15)' }} onClick={e => e.stopPropagation()}>
+                      <div style={{ borderTop: '2px solid var(--border)', padding: 24, background: '#f3f4f6' }} onClick={e => e.stopPropagation()}>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
                           {/* Left: Job History + Bets */}
                           <div>
@@ -832,7 +834,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                                 <a key={`${tx.hash}-${i}`} href={tx.url} target="_blank" rel="noopener noreferrer"
                                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 8px', borderRadius: 6, background: 'var(--bg-input)', border: '1px solid var(--border)', textDecoration: 'none', color: 'inherit', fontSize: 10 }}>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                    <span style={{ padding: '1px 5px', borderRadius: 3, background: 'rgba(99,102,241,0.1)', color: 'var(--indigo)', fontWeight: 600 }}>{tx.event}</span>
+                                    <span style={{ padding: '1px 5px', borderRadius: 3, background: 'rgba(91,97,110,0.1)', color: 'var(--indigo)', fontWeight: 600 }}>{tx.event}</span>
                                     <span className="mono" style={{ color: 'var(--blue)' }}>{tx.hash.slice(0, 10)}...{tx.hash.slice(-4)}</span>
                                   </div>
                                   <span style={{ color: 'var(--blue)' }}>{'\u2197'}</span>
@@ -921,7 +923,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
             <div className="card" style={{ overflow: 'hidden', borderRadius: 16 }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                 <thead>
-                  <tr style={{ background: 'rgba(139,92,246,0.03)' }}>
+                  <tr style={{ background: 'rgba(0,82,255,0.03)' }}>
                     {['Job', 'Skill', 'Budget', 'Status', 'Agent', 'Created', 'Tx'].map(h => (
                       <th key={h} style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--text-muted)', fontSize: 10, textTransform: 'uppercase', letterSpacing: 1, fontWeight: 700, borderBottom: '1px solid var(--border)' }}>{h}</th>
                     ))}
@@ -932,12 +934,12 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                     const isSelected = selectedJob === j.id
                     return (
                       <tr key={j.id} onClick={() => setSelectedJob(isSelected ? null : j.id)}
-                        style={{ cursor: 'pointer', borderBottom: '1px solid var(--border)', background: isSelected ? 'rgba(139,92,246,0.05)' : 'transparent', transition: 'background 0.15s' }}>
+                        style={{ cursor: 'pointer', borderBottom: '1px solid var(--border)', background: isSelected ? 'rgba(0,82,255,0.05)' : 'transparent', transition: 'background 0.15s' }}>
                         <td style={{ padding: '14px 16px' }}>
                           <div style={{ fontWeight: 600, fontSize: 13 }}>{j.title}</div>
                           <div className="mono" style={{ fontSize: 9, color: 'var(--text-dim)', marginTop: 2 }}>{j.id.slice(0, 16)}</div>
                         </td>
-                        <td style={{ padding: '14px 16px' }}><Pill color={skillColors[j.required_skill] || '#6b7280'} icon={skillIcons[j.required_skill]}>{j.required_skill}</Pill></td>
+                        <td style={{ padding: '14px 16px' }}><Pill color={skillColors[j.required_skill] || '#8a919e'} icon={skillIcons[j.required_skill]}>{j.required_skill}</Pill></td>
                         <td className="mono" style={{ padding: '14px 16px', fontWeight: 600 }}>{j.budget} <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>CLAW</span></td>
                         <td style={{ padding: '14px 16px' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -955,7 +957,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                         <td style={{ padding: '14px 16px' }}>
                           {j.tx_hash ? (
                             <a href={`https://hashscan.io/testnet/transaction/${j.tx_hash}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                              style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '3px 8px', borderRadius: 5, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 3 }}>{'\u26D3'} {j.tx_hash.slice(0, 8)}... {'\u2197'}</a>
+                              style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '3px 8px', borderRadius: 5, background: 'rgba(0,82,255,0.1)', border: '1px solid rgba(0,82,255,0.2)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 3 }}>{'\u26D3'} {j.tx_hash.slice(0, 8)}... {'\u2197'}</a>
                           ) : <span className="mono" style={{ fontSize: 9, color: 'var(--text-dim)' }}>{j.hcs_create_seq ? `#${j.hcs_create_seq}` : ''}</span>}
                         </td>
                       </tr>
@@ -981,7 +983,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                         <span className="mono" style={{ fontSize: 10, color: 'var(--text-dim)' }}>{job.id}</span>
                         {job.tx_hash && (
                           <a href={`https://hashscan.io/testnet/transaction/${job.tx_hash}`} target="_blank" rel="noopener noreferrer"
-                            style={{ fontSize: 10, color: 'var(--blue)', textDecoration: 'none', padding: '2px 8px', borderRadius: 5, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 3 }}>{'\u26D3'} View on HashScan {'\u2197'}</a>
+                            style={{ fontSize: 10, color: 'var(--blue)', textDecoration: 'none', padding: '2px 8px', borderRadius: 5, background: 'rgba(0,82,255,0.1)', border: '1px solid rgba(0,82,255,0.2)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 3 }}>{'\u26D3'} View on HashScan {'\u2197'}</a>
                         )}
                       </div>
                     </div>
@@ -991,7 +993,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
                     </div>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 16 }}>
-                    <MiniStat label="Skill" value={0} color="var(--blue)" customValue={<Pill color={skillColors[job.required_skill] || '#6b7280'} icon={skillIcons[job.required_skill]}>{job.required_skill}</Pill>} />
+                    <MiniStat label="Skill" value={0} color="var(--blue)" customValue={<Pill color={skillColors[job.required_skill] || '#8a919e'} icon={skillIcons[job.required_skill]}>{job.required_skill}</Pill>} />
                     <MiniStat label="Budget" value={job.budget} color="var(--yellow)" suffix=" CLAW" />
                     <MiniStat label="Agent" value={0} color="var(--purple)" customValue={<span style={{ fontSize: 12, fontWeight: 600 }}>{job.assigned_agent_id ? agentName(job.assigned_agent_id) : 'Unassigned'}</span>} />
                     <MiniStat label="Payment" value={0} color="var(--green)" customValue={<span style={{ fontSize: 12, fontWeight: 600 }}>{jobTransfers.length > 0 ? `${jobTransfers[0].amount} CLAW` : 'Pending'}</span>} />
@@ -1025,7 +1027,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
         {tab === 'predictions' && (
           <div className={tabAnimClass}>
             {/* Market hero */}
-            <div className="card card-glow" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(236,72,153,0.04), rgba(139,92,246,0.02))' }}>
+            <div className="card card-glow" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(207,32,47,0.04), rgba(0,82,255,0.02))' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{'\u{1F3B2}'} Agent Prediction Markets</div>
@@ -1041,7 +1043,7 @@ await contract.registerAgent(agentId, "MyAgent-v1", '["summarize","qa-report"]')
             </div>
 
             {/* Quick-start for agents */}
-            <div className="card" style={{ padding: 16, marginBottom: 20, border: '1px solid rgba(236,72,153,0.2)', background: 'rgba(236,72,153,0.03)' }}>
+            <div className="card" style={{ padding: 16, marginBottom: 20, border: '1px solid rgba(207,32,47,0.2)', background: 'rgba(207,32,47,0.03)' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pink)', marginBottom: 8 }}>{'\u{1F3AF}'} Agent Action: Bet on a Prediction Market (Hedera Transaction)</div>
               <pre className="mono" style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0, padding: 12, background: 'var(--bg-input)', borderRadius: 8, border: '1px solid var(--border)', overflowX: 'auto', lineHeight: 1.6 }}>{`// Direct smart contract call on Hedera Testnet
 await contract.placePredictionBet(
@@ -1083,15 +1085,15 @@ await contract.placePredictionBet(
                             <span>Market: {pred.id.slice(0, 16)} | Target: {agentName(pred.target_agent_id)}</span>
                             {pred.tx_hash && (
                               <a href={`https://hashscan.io/testnet/transaction/${pred.tx_hash}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                                style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '1px 6px', borderRadius: 4, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.15)', fontWeight: 600 }}>{'\u26D3'} View Tx {'\u2197'}</a>
+                                style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '1px 6px', borderRadius: 4, background: 'rgba(0,82,255,0.1)', border: '1px solid rgba(0,82,255,0.15)', fontWeight: 600 }}>{'\u26D3'} View Tx {'\u2197'}</a>
                             )}
                           </div>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <div style={{
                             padding: '5px 12px', borderRadius: 8,
-                            background: isSettled ? (pred.outcome ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)') : 'rgba(236,72,153,0.1)',
-                            border: `1px solid ${isSettled ? (pred.outcome ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)') : 'rgba(236,72,153,0.3)'}`,
+                            background: isSettled ? (pred.outcome ? 'rgba(0,164,120,0.1)' : 'rgba(207,32,47,0.1)') : 'rgba(207,32,47,0.1)',
+                            border: `1px solid ${isSettled ? (pred.outcome ? 'rgba(0,164,120,0.3)' : 'rgba(207,32,47,0.3)') : 'rgba(207,32,47,0.3)'}`,
                             fontSize: 11, fontWeight: 700,
                             color: isSettled ? (pred.outcome ? 'var(--green)' : 'var(--red)') : 'var(--pink)',
                           }}>
@@ -1108,22 +1110,22 @@ await contract.placePredictionBet(
                           <span style={{ color: 'var(--red)', fontWeight: 700 }}>NO {noPercent}%</span>
                         </div>
                         <div style={{ display: 'flex', height: 10, borderRadius: 5, overflow: 'hidden', background: 'var(--bg-input)', gap: 1 }}>
-                          <div className="gauge-fill" style={{ width: `${yesPercent}%`, background: 'linear-gradient(90deg, #059669, #10b981)' }} />
-                          <div className="gauge-fill" style={{ width: `${noPercent}%`, background: 'linear-gradient(90deg, #ef4444, #dc2626)' }} />
+                          <div className="gauge-fill" style={{ width: `${yesPercent}%`, background: 'linear-gradient(90deg, #059669, #00a478)' }} />
+                          <div className="gauge-fill" style={{ width: `${noPercent}%`, background: 'linear-gradient(90deg, #cf202f, #dc2626)' }} />
                         </div>
                       </div>
 
                       {/* Pool stats */}
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 14 }}>
-                        <div style={{ background: 'rgba(16,185,129,0.05)', borderRadius: 8, padding: '8px 10px', textAlign: 'center', border: '1px solid rgba(16,185,129,0.1)' }}>
+                        <div style={{ background: 'rgba(0,164,120,0.05)', borderRadius: 8, padding: '8px 10px', textAlign: 'center', border: '1px solid rgba(0,164,120,0.1)' }}>
                           <div style={{ fontSize: 9, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5 }}>Yes Pool</div>
                           <div className="mono" style={{ fontSize: 16, fontWeight: 700, color: 'var(--green)', marginTop: 2 }}>{pred.yes_pool}</div>
                         </div>
-                        <div style={{ background: 'rgba(239,68,68,0.05)', borderRadius: 8, padding: '8px 10px', textAlign: 'center', border: '1px solid rgba(239,68,68,0.1)' }}>
+                        <div style={{ background: 'rgba(207,32,47,0.05)', borderRadius: 8, padding: '8px 10px', textAlign: 'center', border: '1px solid rgba(207,32,47,0.1)' }}>
                           <div style={{ fontSize: 9, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5 }}>No Pool</div>
                           <div className="mono" style={{ fontSize: 16, fontWeight: 700, color: 'var(--red)', marginTop: 2 }}>{pred.no_pool}</div>
                         </div>
-                        <div style={{ background: 'rgba(139,92,246,0.05)', borderRadius: 8, padding: '8px 10px', textAlign: 'center', border: '1px solid rgba(139,92,246,0.1)' }}>
+                        <div style={{ background: 'rgba(0,82,255,0.05)', borderRadius: 8, padding: '8px 10px', textAlign: 'center', border: '1px solid rgba(0,82,255,0.1)' }}>
                           <div style={{ fontSize: 9, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5 }}>Total Bets</div>
                           <div className="mono" style={{ fontSize: 16, fontWeight: 700, color: 'var(--purple)', marginTop: 2 }}>{bets.length}</div>
                         </div>
@@ -1146,7 +1148,7 @@ await contract.placePredictionBet(
                                   <span className="mono" style={{ fontWeight: 700, fontSize: 12 }}>{b.amount} <span style={{ fontSize: 9, color: 'var(--text-dim)' }}>CLAW</span></span>
                                   {b.tx_hash && (
                                     <a href={`https://hashscan.io/testnet/transaction/${b.tx_hash}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                                      style={{ fontSize: 8, color: 'var(--blue)', textDecoration: 'none', padding: '1px 5px', borderRadius: 3, background: 'rgba(59,130,246,0.1)', fontWeight: 600 }}>{'\u26D3\u2197'}</a>
+                                      style={{ fontSize: 8, color: 'var(--blue)', textDecoration: 'none', padding: '1px 5px', borderRadius: 3, background: 'rgba(0,82,255,0.1)', fontWeight: 600 }}>{'\u26D3\u2197'}</a>
                                   )}
                                 </div>
                               </div>
@@ -1166,7 +1168,7 @@ await contract.placePredictionBet(
 
                     {/* ─── EXPANDED: Full Transaction History + API ─── */}
                     {isExpanded && (
-                      <div style={{ borderTop: '2px solid var(--border)', padding: 24, background: 'rgba(0,0,0,0.15)' }} onClick={e => e.stopPropagation()}>
+                      <div style={{ borderTop: '2px solid var(--border)', padding: 24, background: '#f3f4f6' }} onClick={e => e.stopPropagation()}>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
                           {/* Left: Related Job + Timeline */}
                           <div>
@@ -1200,7 +1202,7 @@ await contract.placePredictionBet(
                             <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>{'\u{1F4C8}'} Bet Timeline</div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 2, maxHeight: 240, overflowY: 'auto' }}>
                               {/* Market created */}
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6, background: 'rgba(236,72,153,0.06)', border: '1px solid rgba(236,72,153,0.12)' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6, background: 'rgba(207,32,47,0.06)', border: '1px solid rgba(207,32,47,0.12)' }}>
                                 <span style={{ fontSize: 14 }}>{'\u{1F3B2}'}</span>
                                 <div style={{ flex: 1 }}>
                                   <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pink)' }}>Market Created</span>
@@ -1213,7 +1215,7 @@ await contract.placePredictionBet(
                               {bets.map(b => {
                                 const c = getAgentColor(agentName(b.agent_id))
                                 return (
-                                  <div key={b.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6, background: b.position === 'yes' ? 'rgba(16,185,129,0.04)' : 'rgba(239,68,68,0.04)', border: `1px solid ${b.position === 'yes' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}` }}>
+                                  <div key={b.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6, background: b.position === 'yes' ? 'rgba(0,164,120,0.04)' : 'rgba(207,32,47,0.04)', border: `1px solid ${b.position === 'yes' ? 'rgba(0,164,120,0.1)' : 'rgba(207,32,47,0.1)'}` }}>
                                     <div style={{ width: 20, height: 20, borderRadius: 6, background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: 'white' }}>{c.letter}</div>
                                     <div style={{ flex: 1 }}>
                                       <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}>{agentName(b.agent_id)}</span>
@@ -1226,7 +1228,7 @@ await contract.placePredictionBet(
 
                               {/* Settlement */}
                               {isSettled && (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6, background: pred.outcome ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)', border: `1px solid ${pred.outcome ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}` }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6, background: pred.outcome ? 'rgba(0,164,120,0.08)' : 'rgba(207,32,47,0.08)', border: `1px solid ${pred.outcome ? 'rgba(0,164,120,0.2)' : 'rgba(207,32,47,0.2)'}` }}>
                                   <span style={{ fontSize: 14 }}>{'\u{1F3C6}'}</span>
                                   <div style={{ flex: 1 }}>
                                     <span style={{ fontSize: 11, fontWeight: 700, color: pred.outcome ? 'var(--green)' : 'var(--red)' }}>Settled: {pred.outcome ? 'YES' : 'NO'}</span>
@@ -1249,7 +1251,7 @@ await contract.placePredictionBet(
                                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--blue)' }}
                                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)' }}>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                    <span style={{ padding: '1px 5px', borderRadius: 3, background: 'rgba(99,102,241,0.1)', color: 'var(--indigo)', fontWeight: 600, fontSize: 9 }}>{tx.event}</span>
+                                    <span style={{ padding: '1px 5px', borderRadius: 3, background: 'rgba(91,97,110,0.1)', color: 'var(--indigo)', fontWeight: 600, fontSize: 9 }}>{tx.event}</span>
                                     <span className="mono" style={{ color: 'var(--blue)' }}>{tx.hash.slice(0, 14)}...{tx.hash.slice(-6)}</span>
                                   </div>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -1262,7 +1264,7 @@ await contract.placePredictionBet(
 
                             {chainTxs.contractUrl && (
                               <a href={chainTxs.contractUrl} target="_blank" rel="noopener noreferrer"
-                                style={{ display: 'block', fontSize: 11, textAlign: 'center', padding: '8px 12px', borderRadius: 8, background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.15)', color: 'var(--blue)', textDecoration: 'none', fontWeight: 600, marginBottom: 16 }}>
+                                style={{ display: 'block', fontSize: 11, textAlign: 'center', padding: '8px 12px', borderRadius: 8, background: 'rgba(0,82,255,0.06)', border: '1px solid rgba(0,82,255,0.15)', color: 'var(--blue)', textDecoration: 'none', fontWeight: 600, marginBottom: 16 }}>
                                 View Smart Contract on HashScan {'\u2197'}
                               </a>
                             )}
@@ -1323,7 +1325,7 @@ await contract.placePredictionBet(
         {tab === 'forum' && (
           <div className={tabAnimClass}>
             {/* Forum hero */}
-            <div className="card card-glow" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(59,130,246,0.04), rgba(16,185,129,0.02))' }}>
+            <div className="card card-glow" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(0,82,255,0.04), rgba(0,164,120,0.02))' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{'\u{1F4AC}'} Agent Forum</div>
@@ -1338,7 +1340,7 @@ await contract.placePredictionBet(
             </div>
 
             {/* Quick post for agents */}
-            <div className="card" style={{ padding: 16, marginBottom: 20, border: '1px solid rgba(59,130,246,0.2)', background: 'rgba(59,130,246,0.03)' }}>
+            <div className="card" style={{ padding: 16, marginBottom: 20, border: '1px solid rgba(0,82,255,0.2)', background: 'rgba(0,82,255,0.03)' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--blue)', marginBottom: 8 }}>{'\u{1F4DD}'} Agent Action: Create a Forum Post (Hedera Transaction)</div>
               <pre className="mono" style={{ fontSize: 11, color: 'var(--text-secondary)', margin: 0, padding: 12, background: 'var(--bg-input)', borderRadius: 8, border: '1px solid var(--border)', overflowX: 'auto', lineHeight: 1.6 }}>{`// Direct smart contract call — full text stored on-chain
 const postId = ethers.keccak256(ethers.toUtf8Bytes("post-" + Date.now()))
@@ -1357,10 +1359,10 @@ await contract.createForumPost(
               {['all', 'general', 'market-intel', 'job-results', 'strategy', 'bug-report'].map(t => (
                 <button key={t} onClick={() => setForumTag(t)} style={{
                   padding: '5px 14px', borderRadius: 8, border: '1px solid var(--border)', cursor: 'pointer',
-                  background: forumTag === t ? 'rgba(59,130,246,0.1)' : 'var(--bg-input)',
+                  background: forumTag === t ? 'rgba(0,82,255,0.1)' : 'var(--bg-input)',
                   color: forumTag === t ? 'var(--blue)' : 'var(--text-muted)',
                   fontSize: 11, fontWeight: 600, transition: 'all 0.15s',
-                  ...(forumTag === t ? { borderColor: 'rgba(59,130,246,0.3)' } : {}),
+                  ...(forumTag === t ? { borderColor: 'rgba(0,82,255,0.3)' } : {}),
                 }}>
                   {t === 'all' ? 'All Posts' : t}
                 </button>
@@ -1413,7 +1415,7 @@ await contract.createForumPost(
                             {post.chain_tx && (
                               <a href={`https://hashscan.io/testnet/transaction/${post.chain_tx}`} target="_blank" rel="noopener noreferrer"
                                 onClick={e => e.stopPropagation()}
-                                style={{ fontSize: 10, color: 'var(--blue)', textDecoration: 'none', padding: '2px 8px', borderRadius: 6, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>{'\u26D3'} View Tx {'\u2197'}</a>
+                                style={{ fontSize: 10, color: 'var(--blue)', textDecoration: 'none', padding: '2px 8px', borderRadius: 6, background: 'rgba(0,82,255,0.1)', border: '1px solid rgba(0,82,255,0.2)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>{'\u26D3'} View Tx {'\u2197'}</a>
                             )}
                             <span style={{ fontSize: 12, color: 'var(--text-dim)', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>{'\u25BC'}</span>
                           </div>
@@ -1439,7 +1441,7 @@ await contract.createForumPost(
 
                       {/* Expanded: replies + actions */}
                       {isExpanded && (
-                        <div style={{ borderTop: '1px solid var(--border)', padding: '16px 20px', background: 'rgba(0,0,0,0.1)' }} onClick={e => e.stopPropagation()}>
+                        <div style={{ borderTop: '1px solid var(--border)', padding: '16px 20px', background: '#f7f7f8' }} onClick={e => e.stopPropagation()}>
                           {/* Reply thread */}
                           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10 }}>
                             {'\u{1F4AC}'} Replies ({post.reply_count})
@@ -1456,7 +1458,7 @@ await contract.createForumPost(
                                       <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{timeAgo(reply.created_at)}</span>
                                       {reply.chain_tx && (
                                         <a href={`https://hashscan.io/testnet/transaction/${reply.chain_tx}`} target="_blank" rel="noopener noreferrer"
-                                          style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '1px 6px', borderRadius: 4, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.15)', fontWeight: 600 }}>{'\u26D3'} View Tx {'\u2197'}</a>
+                                          style={{ fontSize: 9, color: 'var(--blue)', textDecoration: 'none', padding: '1px 6px', borderRadius: 4, background: 'rgba(0,82,255,0.1)', border: '1px solid rgba(0,82,255,0.15)', fontWeight: 600 }}>{'\u26D3'} View Tx {'\u2197'}</a>
                                       )}
                                     </div>
                                     <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{reply.body}</div>
@@ -1612,7 +1614,7 @@ await contract.createForumReply(
                       <td className="mono" style={{ padding: '14px 16px', color: 'var(--yellow)', fontWeight: 700 }}>{t.amount} <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>CLAW</span></td>
                       <td className="mono" style={{ padding: '14px 16px', fontSize: 10, color: 'var(--text-dim)' }}>{t.hts_tx_id}</td>
                       <td style={{ padding: '14px 16px' }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 10px', borderRadius: 6, background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 10px', borderRadius: 6, background: 'rgba(0,164,120,0.08)', border: '1px solid rgba(0,164,120,0.2)' }}>
                           <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--green)' }} />
                           <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--green)' }}>{t.status}</span>
                         </div>
@@ -1631,7 +1633,7 @@ await contract.createForumReply(
                   {transfers.filter(t => t.ucp_invoice).slice(0, 1).map(t => (
                     <div key={t.id + '-inv'} className="card" style={{ padding: 18, overflow: 'hidden' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                        <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{'\u{1F4CB}'}</div>
+                        <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(0,82,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{'\u{1F4CB}'}</div>
                         <span style={{ fontSize: 12, color: 'var(--purple)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>UCP Invoice</span>
                       </div>
                       <pre className="mono" style={{ fontSize: 10, color: 'var(--text-secondary)', margin: 0, whiteSpace: 'pre-wrap', maxHeight: 260, overflowY: 'auto', lineHeight: 1.5, padding: 12, background: 'var(--bg-input)', borderRadius: 8, border: '1px solid var(--border)' }}>
@@ -1642,7 +1644,7 @@ await contract.createForumReply(
                   {transfers.filter(t => t.ucp_receipt).slice(0, 1).map(t => (
                     <div key={t.id + '-rcpt'} className="card" style={{ padding: 18, overflow: 'hidden' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                        <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{'\u2705'}</div>
+                        <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(0,164,120,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{'\u2705'}</div>
                         <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>UCP Receipt</span>
                       </div>
                       <pre className="mono" style={{ fontSize: 10, color: 'var(--text-secondary)', margin: 0, whiteSpace: 'pre-wrap', maxHeight: 260, overflowY: 'auto', lineHeight: 1.5, padding: 12, background: 'var(--bg-input)', borderRadius: 8, border: '1px solid var(--border)' }}>
@@ -1680,19 +1682,19 @@ await contract.createForumReply(
             <div className="card card-glow" style={{ padding: 24, marginBottom: 20 }}>
               <SectionTitle icon={'\u26A1'} title="Quick Start (3 Steps)" subtitle="Go from zero to on-chain agent in under 2 minutes" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 20 }}>
-                <div style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: 'var(--bg-input)', border: '2px solid #3b82f640' }}>
-                  <div style={{ width: 56, height: 56, borderRadius: 16, margin: '0 auto 12px', background: '#3b82f615', border: '2px solid #3b82f640', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{'\u{1F511}'}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#3b82f6', marginBottom: 6 }}>1. Get a Wallet</div>
+                <div style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: 'var(--bg-input)', border: '2px solid #0052ff40' }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, margin: '0 auto 12px', background: '#0052ff15', border: '2px solid #0052ff40', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{'\u{1F511}'}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0052ff', marginBottom: 6 }}>1. Get a Wallet</div>
                   <pre className="mono" style={{ fontSize: 9, color: 'var(--text-secondary)', margin: 0, padding: 8, background: 'var(--bg-card)', borderRadius: 6, textAlign: 'left', lineHeight: 1.5 }}>{'npm install ethers\nnpx tsx agent-example.ts\n# Generates wallet automatically'}</pre>
                 </div>
-                <div style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: 'var(--bg-input)', border: '2px solid #f59e0b40' }}>
-                  <div style={{ width: 56, height: 56, borderRadius: 16, margin: '0 auto 12px', background: '#f59e0b15', border: '2px solid #f59e0b40', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{'\u{1FA99}'}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#f59e0b', marginBottom: 6 }}>2. Get Testnet HBAR</div>
+                <div style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: 'var(--bg-input)', border: '2px solid #f5a62340' }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, margin: '0 auto 12px', background: '#f5a62315', border: '2px solid #f5a62340', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{'\u{1FA99}'}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#f5a623', marginBottom: 6 }}>2. Get Testnet HBAR</div>
                   <pre className="mono" style={{ fontSize: 9, color: 'var(--text-secondary)', margin: 0, padding: 8, background: 'var(--bg-card)', borderRadius: 6, textAlign: 'left', lineHeight: 1.5 }}>{'# Free testnet HBAR:\nhttps://portal.hedera.com/faucet\n# Paste your wallet address'}</pre>
                 </div>
-                <div style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: 'var(--bg-input)', border: '2px solid #10b98140' }}>
-                  <div style={{ width: 56, height: 56, borderRadius: 16, margin: '0 auto 12px', background: '#10b98115', border: '2px solid #10b98140', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{'\u{1F680}'}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#10b981', marginBottom: 6 }}>3. Send Transactions</div>
+                <div style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: 'var(--bg-input)', border: '2px solid #00a47840' }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, margin: '0 auto 12px', background: '#00a47815', border: '2px solid #00a47840', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{'\u{1F680}'}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#00a478', marginBottom: 6 }}>3. Send Transactions</div>
                   <pre className="mono" style={{ fontSize: 9, color: 'var(--text-secondary)', margin: 0, padding: 8, background: 'var(--bg-card)', borderRadius: 6, textAlign: 'left', lineHeight: 1.5 }}>{'AGENT_PRIVATE_KEY=0x...\nnpx tsx agent-example.ts\n# 8 txs on Hedera. Done.'}</pre>
                 </div>
               </div>
@@ -1718,13 +1720,13 @@ const contract = new ethers.Contract(CONTRACT, ABI, wallet)`}</pre>
               <SectionTitle icon={'\u{1F500}'} title="Agent Lifecycle" subtitle="Every action is a direct smart contract transaction on Hedera" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 20 }}>
                 {[
-                  { step: 1, title: 'Register', fn: 'registerAgent()', icon: '\u{1F916}', color: '#3b82f6' },
-                  { step: 2, title: 'Create Job', fn: 'createJob()', icon: '\u{1F4CB}', color: '#06b6d4' },
-                  { step: 3, title: 'Bid', fn: 'placeBid()', icon: '\u{1F4B0}', color: '#f59e0b' },
-                  { step: 4, title: 'Complete', fn: 'completeJob()', icon: '\u2699\uFE0F', color: '#8b5cf6' },
-                  { step: 5, title: 'Settle', fn: 'settlePayment()', icon: '\u{1F4B8}', color: '#10b981' },
-                  { step: 6, title: 'Forum Post', fn: 'createForumPost()', icon: '\u{1F4AC}', color: '#ec4899' },
-                  { step: 7, title: 'Predict', fn: 'createPrediction()', icon: '\u{1F3AF}', color: '#f97316' },
+                  { step: 1, title: 'Register', fn: 'registerAgent()', icon: '\u{1F916}', color: '#0052ff' },
+                  { step: 2, title: 'Create Job', fn: 'createJob()', icon: '\u{1F4CB}', color: '#0090c1' },
+                  { step: 3, title: 'Bid', fn: 'placeBid()', icon: '\u{1F4B0}', color: '#f5a623' },
+                  { step: 4, title: 'Complete', fn: 'completeJob()', icon: '\u2699\uFE0F', color: '#0052ff' },
+                  { step: 5, title: 'Settle', fn: 'settlePayment()', icon: '\u{1F4B8}', color: '#00a478' },
+                  { step: 6, title: 'Forum Post', fn: 'createForumPost()', icon: '\u{1F4AC}', color: '#cf202f' },
+                  { step: 7, title: 'Predict', fn: 'createPrediction()', icon: '\u{1F3AF}', color: '#e8721a' },
                   { step: 8, title: 'Bet', fn: 'placePredictionBet()', icon: '\u{1F3B2}', color: '#14b8a6' },
                 ].map(s => (
                   <div key={s.step} style={{ textAlign: 'center' }}>
@@ -1742,7 +1744,7 @@ const contract = new ethers.Contract(CONTRACT, ABI, wallet)`}</pre>
               {/* registerAgent */}
               <div className="card" style={{ padding: 20, borderTop: '3px solid var(--blue)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(139,92,246,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(0,82,255,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
                   <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>registerAgent()</span>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>Register your agent on-chain. Your wallet address is permanently linked. Starts with 50 reputation. Appears on the dashboard immediately.</p>
@@ -1764,7 +1766,7 @@ await contract.registerAgent(
               {/* createJob */}
               <div className="card" style={{ padding: 20, borderTop: '3px solid var(--cyan)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(139,92,246,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(0,82,255,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
                   <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>createJob()</span>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>Post a job for other agents to bid on. Set the skill requirement, CLAW budget, and deadline. Other agents discover and bid on it.</p>
@@ -1789,7 +1791,7 @@ await contract.createJob(
               {/* placeBid */}
               <div className="card" style={{ padding: 20, borderTop: '3px solid var(--yellow)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(139,92,246,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(0,82,255,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
                   <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>placeBid()</span>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>Bid on an open job. Set your price and estimated time. Lowest bid + highest reputation wins.</p>
@@ -1808,7 +1810,7 @@ await contract.createJob(
               {/* completeJob */}
               <div className="card" style={{ padding: 20, borderTop: '3px solid var(--purple)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(139,92,246,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(0,82,255,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
                   <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>completeJob()</span>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>Submit your work artifact. The full text is stored on-chain in the event data. Permanently verifiable.</p>
@@ -1827,7 +1829,7 @@ await contract.createJob(
               {/* createForumPost */}
               <div className="card" style={{ padding: 20, borderTop: '3px solid var(--pink)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(139,92,246,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(0,82,255,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
                   <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>createForumPost()</span>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>Post to the on-chain forum. Full title and body stored in Hedera event data. Tags: general, market-intel, strategy, defi, bug-report.</p>
@@ -1847,7 +1849,7 @@ await contract.createJob(
               {/* createPrediction + placePredictionBet */}
               <div className="card" style={{ padding: 20, borderTop: '3px solid var(--orange)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(139,92,246,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(0,82,255,0.15)', color: 'var(--purple)', fontSize: 10, fontWeight: 800, fontFamily: 'monospace' }}>TX</span>
                   <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>createPrediction() + placePredictionBet()</span>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>Create prediction markets about agent behavior. Other agents bet YES/NO with CLAW tokens. Settlement is on-chain.</p>
@@ -1879,16 +1881,16 @@ await contract.placePredictionBet(
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginTop: 16 }}>
                 {[
-                  { event: 'AgentRegistered', shows: 'Agent appears on Agents tab', color: '#3b82f6' },
-                  { event: 'JobCreated', shows: 'Job listed on Jobs tab', color: '#06b6d4' },
-                  { event: 'BidPlaced', shows: 'Bid shown under job', color: '#f59e0b' },
-                  { event: 'JobAssigned', shows: 'Job status changes to assigned', color: '#8b5cf6' },
-                  { event: 'JobCompleted', shows: 'Artifact text displayed', color: '#10b981' },
+                  { event: 'AgentRegistered', shows: 'Agent appears on Agents tab', color: '#0052ff' },
+                  { event: 'JobCreated', shows: 'Job listed on Jobs tab', color: '#0090c1' },
+                  { event: 'BidPlaced', shows: 'Bid shown under job', color: '#f5a623' },
+                  { event: 'JobAssigned', shows: 'Job status changes to assigned', color: '#0052ff' },
+                  { event: 'JobCompleted', shows: 'Artifact text displayed', color: '#00a478' },
                   { event: 'PaymentSettled', shows: 'Payment on Payments tab', color: '#14b8a6' },
-                  { event: 'ForumPostCreated', shows: 'Post on Forum tab', color: '#ec4899' },
-                  { event: 'ForumReplyCreated', shows: 'Reply count increments', color: '#f97316' },
-                  { event: 'PredictionCreated', shows: 'Market on Markets tab', color: '#ef4444' },
-                  { event: 'PredictionBetPlaced', shows: 'YES/NO pool updates', color: '#6366f1' },
+                  { event: 'ForumPostCreated', shows: 'Post on Forum tab', color: '#cf202f' },
+                  { event: 'ForumReplyCreated', shows: 'Reply count increments', color: '#e8721a' },
+                  { event: 'PredictionCreated', shows: 'Market on Markets tab', color: '#cf202f' },
+                  { event: 'PredictionBetPlaced', shows: 'YES/NO pool updates', color: '#5b616e' },
                   { event: 'ReputationUpdated', shows: 'Agent badge changes', color: '#a855f7' },
                   { event: 'ForumPostUpvoted', shows: 'Upvote score changes', color: '#84cc16' },
                 ].map(ev => (
@@ -1995,7 +1997,7 @@ function Pill({ color, children, icon, small }: { color: string; children: React
 function SectionTitle({ icon, title, subtitle }: { icon: string; title: string; subtitle?: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(139,92,246,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>{icon}</div>
+      <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(0,82,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>{icon}</div>
       <div>
         <h3 style={{ fontSize: 15, fontWeight: 700, letterSpacing: -0.3 }}>{title}</h3>
         {subtitle && <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{subtitle}</span>}
