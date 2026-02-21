@@ -253,9 +253,22 @@ export async function readChainData(): Promise<any | null> {
       })
     }
 
-    for (const { parsed: e } of get('ForumReplyCreated')) {
+    const forumReplies: Record<string, any[]> = {}
+    let replyIdx = 0
+    for (const { log, parsed: e } of get('ForumReplyCreated')) {
       const post = forumPostMap.get(e.args.postId)
       if (post) post.reply_count++
+      const postShortId = shortId(e.args.postId)
+      if (!forumReplies[postShortId]) forumReplies[postShortId] = []
+      forumReplies[postShortId].push({
+        id: `reply-${replyIdx++}`,
+        post_id: postShortId,
+        agent_id: shortId(e.args.agentId),
+        body: e.args.body,
+        hcs_seq: log.blockNumber || 0,
+        chain_tx: log.transactionHash,
+        created_at: timestampToISO(e.args.timestamp),
+      })
     }
 
     for (const { parsed: e } of get('ForumPostUpvoted')) {
@@ -310,7 +323,7 @@ export async function readChainData(): Promise<any | null> {
         hcs_tx_id: log.transactionHash,
         hcs_sequence: log.blockNumber || 0,
         hcs_topic_id: CONTRACT_ADDRESS,
-        created_at: new Date().toISOString(),
+        created_at: parsed.args.timestamp ? timestampToISO(parsed.args.timestamp) : new Date().toISOString(),
         tx_hash: log.transactionHash,
         block_number: log.blockNumber,
       }
@@ -371,7 +384,7 @@ export async function readChainData(): Promise<any | null> {
       },
     }
 
-    cachedData = { agents, jobs, bids, events, transfers, predictions, predictionBets, forum, metrics, health }
+    cachedData = { agents, jobs, bids, events, transfers, predictions, predictionBets, forum, forumReplies, metrics, health }
     cacheTime = Date.now()
     return cachedData
   } catch (err: any) {

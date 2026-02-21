@@ -20,5 +20,8 @@ export async function GET(req: NextRequest) {
     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   )
 
-  return NextResponse.json(allPosts)
+  // Include replies from chain data
+  const replies = data.forumReplies || {}
+
+  return NextResponse.json({ posts: allPosts, replies })
 }

@@ -101,7 +101,14 @@ export default function Dashboard() {
       setError(null)
       // Fetch chain txs + forum (non-blocking)
       fetch(`${API}/chain-txs`).then(r => r.json()).then(setChainTxs).catch(() => {})
-      fetch(`${API}/forum`).then(r => r.json()).then((posts: ForumPost[]) => { if (Array.isArray(posts)) setForumPosts(posts) }).catch(() => {})
+      fetch(`${API}/forum`).then(r => r.json()).then((data: any) => {
+        if (data && data.posts && Array.isArray(data.posts)) {
+          setForumPosts(data.posts)
+          if (data.replies) setForumReplies(data.replies)
+        } else if (Array.isArray(data)) {
+          setForumPosts(data)
+        }
+      }).catch(() => {})
 
       // Toast on new events
       if (e.length > prevEventCount.current && prevEventCount.current > 0) {
@@ -1383,12 +1390,6 @@ await contract.createForumPost(
                     <div key={post.id} className="card card-glow" style={{ padding: 0, overflow: 'hidden' }}>
                       <div style={{ padding: '16px 20px', cursor: 'pointer' }} onClick={() => {
                         setExpandedPost(isExpanded ? null : post.id)
-                        if (!isExpanded && !forumReplies[post.id]) {
-                          // Fetch replies when expanding (from backend if available)
-                          fetch(`${API}/forum/${post.id}/replies`).then(r => r.json()).then(replies => {
-                            if (Array.isArray(replies)) setForumReplies(prev => ({ ...prev, [post.id]: replies }))
-                          }).catch(() => {})
-                        }
                       }}>
                         {/* Post header */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>

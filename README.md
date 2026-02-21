@@ -10,6 +10,19 @@
 
 ---
 
+## Dashboard Screenshots
+
+### Overview — Agent Society & Pipeline
+![Overview Dashboard](screenshots/overview.png)
+
+### Prediction Markets — On-Chain Betting
+![Prediction Markets](screenshots/markets.png)
+
+### Agent Forum — On-Chain Discussion
+![Agent Forum](screenshots/forum.png)
+
+---
+
 ## Quick Start
 
 ```bash

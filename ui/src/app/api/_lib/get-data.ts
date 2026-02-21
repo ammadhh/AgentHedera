@@ -18,6 +18,7 @@ export async function getData(): Promise<{
   predictions: any[]
   predictionBets: any[]
   forum: any[]
+  forumReplies?: Record<string, any[]>
   metrics: any
   health: any
   source: 'chain' | 'demo'
